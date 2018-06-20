@@ -1,0 +1,14 @@
+{
+    "name": "dammynex/ngr-phone-validator",
+    "description": "A PHP Package to validate a nigerian phone number based on availabe public data",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Damilola Ezekiel",
+            "email": "dammybrainlord@gmail.com",
+            "homepage": "http://devl.xyz"
+        }
+    ],
+    "require": {}
+}
