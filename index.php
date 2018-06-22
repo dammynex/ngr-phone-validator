@@ -3,10 +3,13 @@
 require_once './vendor/autoload.php';
 
 use Brainex\Tools\PhoneValidator;
-use Brainex\Tools\PhoneNetworkParser;
+use Brainex\Exceptions\InvalidPhoneException;
 
 $validator = (new PhoneValidator())
-                ->setPhoneNumber('+2349061668519')
+                ->setPhoneNumber('+2342061668519')
+                ->setThrowExceptions(true)
                 ->validate();
 
-echo($validator->toJson());
+if($validator->isValid()) {
+    echo 'Phone number is valid';
+}
