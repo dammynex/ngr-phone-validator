@@ -6,8 +6,15 @@ It utilizes some very common data to check if a Nigerian phone number is valid.
 
 It's very easy to setup and use.
 
+**Using composer**
 ```
 composer require dammynex/ngr-phone-validator
+```
+
+**Manually**
+Download the zip package and require it
+```php
+require_once 'path/to/dir/vendor/autoload.php';
 ```
 
 **Validating a phone number without exceptions**
