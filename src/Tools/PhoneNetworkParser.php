@@ -3,6 +3,7 @@
 namespace Brainex\Tools;
 
 use Brainex\Tools\PhoneValidator;
+use Brainex\Exceptions\InvalidPhoneException;
 
 class PhoneNetworkParser
 {
@@ -18,7 +19,7 @@ class PhoneNetworkParser
      * @see https://en.wikipedia.org/wiki/Telephone_numbers_in_Nigeria
      * @var array
      */
-    private $prefixes = array(
+    private $_prefixes = array(
         self::NETWORK_MTN => array(
             '0703',
             '0706',
@@ -27,7 +28,8 @@ class PhoneNetworkParser
             '0813',
             '0814',
             '0816',
-            '0903'
+            '0903',
+            '0906'
         ),
 
         self::NETWORK_AIRTEL => array(
@@ -67,6 +69,13 @@ class PhoneNetworkParser
     private $_phone;
 
     /**
+     * Phone network id
+     *
+     * @var int
+     */
+    private $_network_id = '';
+
+    /**
      * Class constructor
      *
      * @param PhoneValidator $phone Phone Number
@@ -74,5 +83,74 @@ class PhoneNetworkParser
     public function __construct(PhoneValidator $phone)
     {
         $this->_phone = $phone;
+    }
+
+    /**
+     * Return phone number prefix
+     *
+     * @return string
+     */
+    public function getPhoneNetworkPrefix() : string
+    {
+        return substr($this->_phone->getLocalFormat(), 0, 4);
+    }
+
+    /**
+     * Phone number network's id
+     *
+     * @return string
+     */
+    public function getNetworkId() : string
+    {
+        return $this->_network_id;
+    }
+
+    /**
+     * Parser phone number's network
+     *
+     * @return bool
+     */
+    public function parse()
+    {
+        $prefix = $this->getPhoneNetworkPrefix();
+        $filter = array_filter($this->_prefixes, [$this, 'parseNetwork'], ARRAY_FILTER_USE_BOTH);
+        return true;
+    }
+
+    /**
+     * Parse netowrk loop
+     *
+     * @param [type] $network
+     * @return void
+     */
+    private function parseNetwork($prefixes, $index)
+    {
+        
+        if($this->getNetworkId()) {
+            return;
+        }
+
+        if(!in_array($this->getPhoneNetworkPrefix(), $prefixes)) {
+            return false;
+        }
+
+        $this->_network_id = $index;
+
+        return true;
+    }
+
+    /**
+     * Return false if exceptions are disabled else throw invalid exception
+     *
+     * @throws InvalidPhoneException
+     * @return false
+     */
+    private function throwError()
+    {
+        if(!$this->_phone->getThrowExceptions()) {
+            return false;
+        }
+
+        throw new InvalidPhoneException('Unknown phone number network');
     }
 }
