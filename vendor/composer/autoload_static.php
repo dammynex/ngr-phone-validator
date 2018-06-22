@@ -23,8 +23,10 @@ class ComposerStaticInitd7c2d3d8ec8ae4116dfbfbc1ae0fc760
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
-            'Dammynex\\PhoneValidator\\Exceptions\\' => 35,
-            'Dammynex\\PhoneValidator\\' => 24,
+        ),
+        'B' => 
+        array (
+            'Brainex\\' => 8,
         ),
     );
 
@@ -47,13 +49,9 @@ class ComposerStaticInitd7c2d3d8ec8ae4116dfbfbc1ae0fc760
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
-        'Dammynex\\PhoneValidator\\Exceptions\\' => 
+        'Brainex\\' => 
         array (
-            0 => '/src/Exceptions',
-        ),
-        'Dammynex\\PhoneValidator\\' => 
-        array (
-            0 => '/src/Core',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
