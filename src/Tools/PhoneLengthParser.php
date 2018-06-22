@@ -3,6 +3,7 @@
 namespace Brainex\Tools;
 
 use Brainex\Tools\PhoneValidator;
+use Brainex\Exceptions\InvalidPhoneException;
 
 class PhoneLengthParser
 {
@@ -26,6 +27,13 @@ class PhoneLengthParser
      * @var integer
      */
     const PHONE_LENGTH_INTERNATIONAL_NO_PREFIX_ZERO = 14;
+
+    /**
+     * Internation phone number without the "plus" sign prefix and without the preceeding zero
+     * 
+     * @var integer
+     */
+    const PHONE_LENGTH_INTERNATION_NO_PLUS_NO_PREFIX_ZERO = 13;
 
     /**
      * Local phone number length
@@ -55,6 +63,8 @@ class PhoneLengthParser
      */
     private $_country_code = '234';
 
+    private $_raw_phone;
+
     /**
      * Class constructor
      *
@@ -63,6 +73,27 @@ class PhoneLengthParser
     public function __construct(PhoneValidator $phone)
     {
         $this->_phone = $phone;
+    }
+
+    /**
+     * Return full international number
+     *
+     * @return string
+     */
+    public function getInternationalPhone() : string
+    {
+        $raw = substr($this->getRawPhone(), 1);
+        return $this->_plus . $this->_country_code . $raw;
+    }
+
+    /**
+     * Return clean raw phone number
+     *
+     * @return string
+     */
+    public function getRawPhone() : string
+    {
+        return (string) $this->_raw_phone;
     }
 
     /**
@@ -86,22 +117,121 @@ class PhoneLengthParser
         $specified_country_code = $this->hasPlusPrefix() ? substr($phone, 1, 3) : substr($phone, 0, 3);
         return $specified_country_code === $this->_country_code;
     }
-
-    public function parseInternationalPhoneNumber()
+    
+    /**
+     * Parse
+     *
+     * @throws InvalidPhoneException
+     * @return boolean
+     */
+    public function parse()
     {
+
         $phone = $this->_phone;
-        $has_prefix = $this->hasPlusPrefix($phone);
 
-        $this->_phone_is_valid = false;
+        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL)) {
+            $this->_raw_phone = $this->parseInternationalPhone();
+            return true;
+        }
 
-        if(!$has_prefix) {
+        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PLUS) && !$this->hasPlusPrefix()) {
+            $this->_raw_phone = $this->parseInternationalPhoneWithNoPlusPrefix();
+            return true;
+        }
+
+        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATION_NO_PLUS_NO_PREFIX_ZERO)) {
+            $this->_raw_phone = $this->parseInternationalPhoneWithNoPlusNoZeroPrefix();
+            return true;
+        }
+
+        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PREFIX_ZERO)) {
+            $this->_raw_phone = $this->parseInternationalPhoneWithNoZeroPrefix();
+            return true;
+        }
+
+        return $this->throwParseError();
+    }
+
+    /**
+     * Parse full international phone number
+     *
+     * @return string|bool
+     */
+    private function parseInternationalPhone()
+    {
+        if(!$this->hasCorrectCountryCode()) {
+            return $this->throwParseError();
+        }
+
+        return substr($this->_phone, 4);
+    }
+
+    /**
+     * Parse international phone number without plus prefix
+     * eg. 23409061668519
+     *
+     * @return boolean|string
+     */
+    private function parseInternationalPhoneWithNoPlusPrefix()
+    {
+        if(!$this->hasCorrectCountryCode()) {
+            return $this->throwParseError();
+        }
+
+        return substr($this->_phone, 3);
+    }
+
+    /**
+     * Parse internation phone number without plus prefix
+     * And without the preceeding zero in the main phone number
+     * eg. 2349061668519
+     *
+     * @return boolean|string
+     */
+    private function parseInternationalPhoneWithNoPlusNoZeroPrefix()
+    {
+        if(!$this->hasCorrectCountryCode()) {
+            return $this->throwParseError();
+        }
+
+        $dirty_phone = substr($this->_phone, 3);
+        $raw_phone = '0' . $dirty_phone;
+
+        if(strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
+            return $this->throwParseError();
+        }
+
+        return $raw_phone;
+    }
+
+    /**
+     * Parse internation phone number with plus and with no preceeding zero on the main phone number
+     * eg. +2349061668519
+     *
+     * @return void
+     */
+    private function parseInternationalPhoneWithNoZeroPrefix()
+    {
+        if(!$this->hasCorrectCountryCode()) {
+            return $this->throwParseError();
+        }
+
+        $dirty_phone = substr($this->_phone, 4);
+        $raw_phone = '0' . $dirty_phone;
+
+        if(strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
+            return $this->throwParseError();
+        }
+
+        return $raw_phone;
+    }
+
+    private function throwParseError()
+    {
+        if(!$this->_phone->getThrowExceptions()) {
             return false;
         }
 
-        if(!$this->hasCorrectCountryCode($phone, $has_prefix)) {
-            return false;
-        }
-
-        $network = $this->validateNetwork();
+        throw new InvalidPhoneException('Unable to parse phone number, Invalid phone number detected');
     }
 }
