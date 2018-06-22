@@ -1,8 +1,15 @@
 {
     "name": "dammynex/ngr-phone-validator",
     "description": "A PHP Libary to validate a nigerian phone number based on availabe public data",
+    "keywords": [
+        "phone number",
+        "phone validation",
+        "nigeria phone",
+        "nigeria",
+        "nigeria validate phone"
+    ],
     "type": "library",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Damilola Ezekiel",
@@ -17,5 +24,13 @@
         "psr-4": {
             "Brainex\\": "src"
         }
-    }
+    },
+    "version": "0.1.1",
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/dammynex/ngr-phone-validator"
+        }
+    ]
 }
