@@ -1,6 +1,6 @@
 <?php
 
-namespace Dammynex\PhoneValidator\Exceptions;
+namespace Brainex\Exceptions;
 
 use Exception;
 
