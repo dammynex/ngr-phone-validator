@@ -15,8 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dammynex\\PhoneValidator\\": "/src/Core",
-            "Dammynex\\PhoneValidator\\Exceptions\\": "/src/Exceptions"
+            "Brainex\\": "src"
         }
     }
 }
