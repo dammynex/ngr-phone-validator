@@ -1,4 +1,5 @@
 #ngr-phone-validator
+
 A PHP Libary to validate a nigerian phone number based on availabe public data.
 
 It utilizes some very common data to check if a Nigerian phone number is valid.
