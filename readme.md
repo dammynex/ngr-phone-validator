@@ -46,7 +46,7 @@ When ```PhoneValidator::isValid()``` returns true, Other methods can be utilized
 Method | Description
 ------|-------------
 __toString()| Returns the phone number
-getInternationalFormat()|Returns the international format of the specified phone number (eg. +23349061668519)
+getInternationalFormat()|Returns the international format of the specified phone number (eg. +2349061668519)
 getInternationalFormatWithoutPlusPrefix()|Returns the international format with the plus sign (eg. 2349061668519)
 getLength()|Returns the length of the phone number
 getLocalFormat()|Returns the local format of specified phone number (eg. 09061668519)
