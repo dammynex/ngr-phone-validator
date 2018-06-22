@@ -131,7 +131,7 @@ class PhoneNetworkParser
         }
 
         if(!in_array($this->getPhoneNetworkPrefix(), $prefixes)) {
-            return false;
+            return $this->throwError();
         }
 
         $this->_network_id = $index;
