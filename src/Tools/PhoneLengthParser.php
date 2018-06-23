@@ -149,6 +149,11 @@ class PhoneLengthParser
             return true;
         }
 
+        if($phone->isOfLength(self::PHONE_LENGTH_LOCAL)) {
+            $this->_raw_phone = $this->parseLocalPhone();
+            return true;
+        }
+
         return $this->throwParseError();
     }
 
@@ -224,6 +229,16 @@ class PhoneLengthParser
         }
 
         return $raw_phone;
+    }
+
+    /**
+     * Parse local phone number
+     *
+     * @return string
+     */
+    private function parseLocalPhone()
+    {
+        return (string) $this->_phone;
     }
 
     private function throwParseError()
