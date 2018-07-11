@@ -6,7 +6,7 @@ use Brainex\Tools\PhoneValidator;
 use Brainex\Exceptions\InvalidPhoneException;
 
 $validator = (new PhoneValidator())
-                ->setPhoneNumber('09061668519')
+                ->setPhoneNumber('090 6166 8519')
                 ->setThrowExceptions(false)
                 ->validate();
 

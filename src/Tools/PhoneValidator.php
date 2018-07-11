@@ -185,7 +185,7 @@ class PhoneValidator
      */
     public function setPhoneNumber(string $phone) : self
     {
-        $this->_phone = $phone;
+        $this->_phone = $this->trim($phone);
         return $this;
     }
 
@@ -231,5 +231,16 @@ class PhoneValidator
         $this->_phone_length_is_parsed = $this->_parser->parse();
         $this->_phone_network_is_passed = $this->_network_parser->parse();
         return $this;
+    }
+
+    /**
+     * Remove space from $str
+     *
+     * @param string $str String to trim
+     * @return string
+     */
+    private function trim($str)
+    {
+        return preg_replace('/\s+/', '', $str);
     }
 }
