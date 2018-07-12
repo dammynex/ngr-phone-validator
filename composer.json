@@ -25,7 +25,7 @@
             "Brainex\\": "src"
         }
     },
-    "version": "0.1.2",
+    "version": "0.1.4",
     "minimum-stability": "stable",
     "repositories": [
         {
