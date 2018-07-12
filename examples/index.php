@@ -11,5 +11,5 @@ $validator = (new PhoneValidator())
                 ->validate();
 
 if($validator->isValid()) {
-    echo 'Phone number is valid. =>> ' . $validator->getInternationalFormat();
+    echo 'Phone number is valid. =>> ' . $validator->getInternationalFormatWithoutPlusPrefix();
 }
