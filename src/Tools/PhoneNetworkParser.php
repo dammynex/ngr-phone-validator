@@ -25,11 +25,13 @@ class PhoneNetworkParser
             '0706',
             '0803',
             '0806',
+            '0810',
             '0813',
             '0814',
             '0816',
             '0903',
-            '0906'
+            '0906',
+            '0704'
         ),
 
         self::NETWORK_AIRTEL => array(
@@ -39,7 +41,9 @@ class PhoneNetworkParser
             '0808',
             '0812',
             '0902',
-            '0907'
+            '0907',
+            '0901',
+            '0904'
         ),
 
         self::NETWORK_GLO => array(
@@ -113,32 +117,17 @@ class PhoneNetworkParser
     public function parse()
     {
         $prefix = $this->getPhoneNetworkPrefix();
-        $filter = array_filter($this->_prefixes, [$this, 'parseNetwork'], ARRAY_FILTER_USE_BOTH);
-        return true;
-    }
-
-    /**
-     * Parse netowrk loop
-     *
-     * @param [type] $network
-     * @return void
-     */
-    private function parseNetwork($prefixes, $index)
-    {
         
-        if($this->getNetworkId()) {
-            return;
+        foreach($this->_prefixes as $network => $network_prefixes) {
+            if(in_array($prefix, $network_prefixes)) {
+                $this->_network_id = $network;
+                break;
+            }
         }
-
-        if(!in_array($this->getPhoneNetworkPrefix(), $prefixes)) {
-            return $this->throwError();
-        }
-
-        $this->_network_id = $index;
 
         return true;
     }
-
+    
     /**
      * Return false if exceptions are disabled else throw invalid exception
      *

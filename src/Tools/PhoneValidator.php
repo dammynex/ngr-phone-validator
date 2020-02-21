@@ -234,9 +234,9 @@ class PhoneValidator
     }
 
     /**
-     * Remove space from $str
+     * Remove spaces from $str
      *
-     * @param string $str String to trim
+     * @param string $str
      * @return string
      */
     private function trim($str)
