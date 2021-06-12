@@ -45,7 +45,8 @@ class PhoneNetworkParser
             '0902',
             '0907',
             '0901',
-            '0904'
+            '0904',
+            '0912'
         ),
 
         self::NETWORK_GLO => array(
