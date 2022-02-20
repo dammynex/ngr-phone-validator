@@ -33,7 +33,8 @@ class PhoneNetworkParser
             '0906',
             '0704',
             '0702',
-            '0913'
+            '0913',
+            '0916'
         ),
 
         self::NETWORK_AIRTEL => array(
