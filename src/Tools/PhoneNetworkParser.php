@@ -34,7 +34,8 @@ class PhoneNetworkParser
             '0704',
             '0702',
             '0913',
-            '0916'
+            '0916',
+            '0707'
         ),
 
         self::NETWORK_AIRTEL => array(
@@ -102,7 +103,7 @@ class PhoneNetworkParser
      *
      * @return string
      */
-    public function getPhoneNetworkPrefix() : string
+    public function getPhoneNetworkPrefix(): string
     {
         return substr($this->_phone->getLocalFormat(), 0, 4);
     }
@@ -112,7 +113,7 @@ class PhoneNetworkParser
      *
      * @return string
      */
-    public function getNetworkId() : string
+    public function getNetworkId(): string
     {
         return $this->_network_id;
     }
@@ -125,9 +126,9 @@ class PhoneNetworkParser
     public function parse()
     {
         $prefix = $this->getPhoneNetworkPrefix();
-        
-        foreach($this->_prefixes as $network => $network_prefixes) {
-            if(in_array($prefix, $network_prefixes)) {
+
+        foreach ($this->_prefixes as $network => $network_prefixes) {
+            if (in_array($prefix, $network_prefixes)) {
                 $this->_network_id = $network;
                 break;
             }
@@ -135,7 +136,7 @@ class PhoneNetworkParser
 
         return true;
     }
-    
+
     /**
      * Return false if exceptions are disabled else throw invalid exception
      *
@@ -144,7 +145,7 @@ class PhoneNetworkParser
      */
     private function throwError()
     {
-        if(!$this->_phone->getThrowExceptions()) {
+        if (!$this->_phone->getThrowExceptions()) {
             return false;
         }
 
