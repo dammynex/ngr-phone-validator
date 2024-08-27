@@ -1,36 +1,36 @@
 {
-    "name": "dammynex/ngr-phone-validator",
-    "description": "A PHP Libary to validate a nigerian phone number based on availabe public data",
-    "keywords": [
-        "phone number",
-        "phone validation",
-        "nigeria phone",
-        "nigeria",
-        "nigeria validate phone"
-    ],
-    "type": "library",
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Damilola Ezekiel",
-            "email": "dammybrainlord@gmail.com",
-            "homepage": "http://devl.xyz"
-        }
-    ],
-    "require-dev": {
-        "phpunit/phpunit": "^7.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "Brainex\\": "src"
-        }
-    },
-    "version": "0.1.13",
-    "minimum-stability": "stable",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/dammynex/ngr-phone-validator"
-        }
-    ]
+  "name": "dammynex/ngr-phone-validator",
+  "description": "A PHP Libary to validate a nigerian phone number based on availabe public data",
+  "keywords": [
+    "phone number",
+    "phone validation",
+    "nigeria phone",
+    "nigeria",
+    "nigeria validate phone"
+  ],
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Damilola Ezekiel",
+      "email": "dammybrainlord@gmail.com",
+      "homepage": "http://devl.xyz"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Brainex\\": "src"
+    }
+  },
+  "version": "0.1.14",
+  "minimum-stability": "stable",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/dammynex/ngr-phone-validator"
+    }
+  ]
 }
