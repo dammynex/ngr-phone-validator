@@ -35,7 +35,8 @@ class PhoneNetworkParser
             '0702',
             '0913',
             '0916',
-            '0707'
+            '0707',
+            '0201',
         ),
 
         self::NETWORK_AIRTEL => array(
@@ -50,7 +51,7 @@ class PhoneNetworkParser
             '0904',
             '0912',
             '0707',
-            '0911'
+            '0911',
         ),
 
         self::NETWORK_GLO => array(
@@ -60,7 +61,7 @@ class PhoneNetworkParser
             '0811',
             '0815',
             '0905',
-            '0915'
+            '0915',
         ),
 
         self::NETWORK_9MOBILE => array(
