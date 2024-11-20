@@ -36,6 +36,13 @@ class PhoneLengthParser
     const PHONE_LENGTH_INTERNATION_NO_PLUS_NO_PREFIX_ZERO = 13;
 
     /**
+     * Local number with no zeror perfix
+     * 
+     * @var integer
+     */
+    const PHONE_LENGTH_LOCAL_NO_PREFIX_ZERO = 10;
+
+    /**
      * Local phone number length
      *
      * @var integer
@@ -80,7 +87,7 @@ class PhoneLengthParser
      *
      * @return string
      */
-    public function getInternationalPhone() : string
+    public function getInternationalPhone(): string
     {
         $raw = substr($this->getRawPhone(), 1);
         return $this->_plus . $this->_country_code . $raw;
@@ -91,7 +98,7 @@ class PhoneLengthParser
      *
      * @return string
      */
-    public function getRawPhone() : string
+    public function getRawPhone(): string
     {
         return (string) $this->_raw_phone;
     }
@@ -101,7 +108,7 @@ class PhoneLengthParser
      *
      * @return boolean
      */
-    public function hasPlusPrefix() : bool
+    public function hasPlusPrefix(): bool
     {
         return substr($this->_phone->getPhoneNumber(), 0, 1) === $this->_plus;
     }
@@ -111,13 +118,13 @@ class PhoneLengthParser
      *
      * @return boolean
      */
-    public function hasCorrectCountryCode() : bool
+    public function hasCorrectCountryCode(): bool
     {
         $phone = $this->_phone->getPhoneNumber();
         $specified_country_code = $this->hasPlusPrefix() ? substr($phone, 1, 3) : substr($phone, 0, 3);
         return $specified_country_code === $this->_country_code;
     }
-    
+
     /**
      * Parse
      *
@@ -129,27 +136,32 @@ class PhoneLengthParser
 
         $phone = $this->_phone;
 
-        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL)) {
+        if ($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL)) {
             $this->_raw_phone = $this->parseInternationalPhone();
             return true;
         }
 
-        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PLUS) && !$this->hasPlusPrefix()) {
+        if ($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PLUS) && !$this->hasPlusPrefix()) {
             $this->_raw_phone = $this->parseInternationalPhoneWithNoPlusPrefix();
             return true;
         }
 
-        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATION_NO_PLUS_NO_PREFIX_ZERO)) {
+        if ($phone->isOfLength(self::PHONE_LENGTH_INTERNATION_NO_PLUS_NO_PREFIX_ZERO)) {
             $this->_raw_phone = $this->parseInternationalPhoneWithNoPlusNoZeroPrefix();
             return true;
         }
 
-        if($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PREFIX_ZERO)) {
+        if ($phone->isOfLength(self::PHONE_LENGTH_INTERNATIONAL_NO_PREFIX_ZERO)) {
             $this->_raw_phone = $this->parseInternationalPhoneWithNoZeroPrefix();
             return true;
         }
 
-        if($phone->isOfLength(self::PHONE_LENGTH_LOCAL)) {
+        if ($phone->isOfLength(self::PHONE_LENGTH_LOCAL_NO_PREFIX_ZERO)) {
+            $this->_raw_phone = $this->parseLocalPhoneWithNoZeroPrefix();
+            return true;
+        }
+
+        if ($phone->isOfLength(self::PHONE_LENGTH_LOCAL)) {
             $this->_raw_phone = $this->parseLocalPhone();
             return true;
         }
@@ -164,7 +176,7 @@ class PhoneLengthParser
      */
     private function parseInternationalPhone()
     {
-        if(!$this->hasCorrectCountryCode()) {
+        if (!$this->hasCorrectCountryCode()) {
             return $this->throwParseError();
         }
 
@@ -179,7 +191,7 @@ class PhoneLengthParser
      */
     private function parseInternationalPhoneWithNoPlusPrefix()
     {
-        if(!$this->hasCorrectCountryCode()) {
+        if (!$this->hasCorrectCountryCode()) {
             return $this->throwParseError();
         }
 
@@ -195,14 +207,14 @@ class PhoneLengthParser
      */
     private function parseInternationalPhoneWithNoPlusNoZeroPrefix()
     {
-        if(!$this->hasCorrectCountryCode()) {
+        if (!$this->hasCorrectCountryCode()) {
             return $this->throwParseError();
         }
 
         $dirty_phone = substr($this->_phone, 3);
         $raw_phone = '0' . $dirty_phone;
 
-        if(strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
+        if (strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
             return $this->throwParseError();
         }
 
@@ -217,14 +229,30 @@ class PhoneLengthParser
      */
     private function parseInternationalPhoneWithNoZeroPrefix()
     {
-        if(!$this->hasCorrectCountryCode()) {
+        if (!$this->hasCorrectCountryCode()) {
             return $this->throwParseError();
         }
 
         $dirty_phone = substr($this->_phone, 4);
         $raw_phone = '0' . $dirty_phone;
 
-        if(strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
+        if (strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
+            return $this->throwParseError();
+        }
+
+        return $raw_phone;
+    }
+
+    /**
+     * Parse local phone number without zeror pefix
+     *
+     * @return string
+     */
+    private function parseLocalPhoneWithNoZeroPrefix()
+    {
+        $raw_phone = '0' . $this->_phone;
+
+        if (strlen($raw_phone) !== self::PHONE_LENGTH_LOCAL) {
             return $this->throwParseError();
         }
 
@@ -243,7 +271,7 @@ class PhoneLengthParser
 
     private function throwParseError()
     {
-        if(!$this->_phone->getThrowExceptions()) {
+        if (!$this->_phone->getThrowExceptions()) {
             return false;
         }
 
